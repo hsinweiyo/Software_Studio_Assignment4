@@ -29,7 +29,6 @@ public class PokemonCatcher {
     int score=0;
     public PokemonCatcher() {
 
-
         MouseAdapter listener = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -39,6 +38,15 @@ public class PokemonCatcher {
                 PokemonLabel pokemon = (PokemonLabel) e.getComponent();
 
                 //TODO see if pokemon is catchable, update the UI with SwingUtilities.invokeLater
+                if (pokemon.isCatchable()) {
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            pokemon.caught();
+                            System.out.println("pokemon caught!");
+                        }
+                    });
+                }
 
             }
         };
