@@ -9,26 +9,40 @@ import java.util.Random;
  * Created by jerry on 2017/3/26.
  */
 public class PokemonLabel extends JLabel{
-    private int counter = 0;
     private int timeup;
+
+    int ID = 0;
+    int counter = 0;
+    Random random = new Random();
     public PokemonLabel() {
         setIcon(PokemonSprite.bushIcon());
-        Random random = new Random();
-        timeup = random.nextInt(20) + 10;
+        timeup = WhacPokemonState.Hide.value + random.nextInt(30);
     }
 
     public void Update()
     {
         //TODO setup a counter, if time up you may want to change to another state
-        if(counter == timeup) {
-            switch (state) {
-                case Caught: hidePokemon();
-                case Hide: popPokemon();
-                case Show: hidePokemon();
-            }
-        } else {
-            counter++;
+        switch (state) {
+            case Hide:
+                if(counter == timeup) {
+                    popPokemon();
+                    counter = 0;
+                }
+                break;
+            case Show:
+                if(counter == WhacPokemonState.Show.value) {
+                    hidePokemon();
+                    counter = 0;
+                }
+                break;
+            case Caught:
+                if(counter == WhacPokemonState.Caught.value) {
+                    hidePokemon();
+                    counter = 0;
+                }
+                break;
         }
+        counter++;
     }
 
     public void popPokemon(){
@@ -37,28 +51,24 @@ public class PokemonLabel extends JLabel{
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                int index = random.nextInt(5);
-                ImageIcon icon = new ImageIcon(PokemonSprite.getSprite(index));
+                ID = random.nextInt(5);
+                ImageIcon icon = new ImageIcon(PokemonSprite.getSprite(ID));
                 setIcon(icon);
                 state = WhacPokemonState.Show;
             }
         });
-        counter = 0;
-
     }
     public void hidePokemon()
     {
         //TODO when the pokemon hide into the bushes
         setIcon(PokemonSprite.bushIcon());
         state = WhacPokemonState.Hide;
-        counter = 0;
     }
     public void caught()
     {
         //TODO when player caught the pokemon
         setIcon(PokemonSprite.pokeballIcon());
         state = WhacPokemonState.Caught;
-        counter = 0;
     }
 
     public boolean isCatchable()
@@ -68,7 +78,16 @@ public class PokemonLabel extends JLabel{
     }
     WhacPokemonState state = WhacPokemonState.Hide;
 
+    public int getID() {
+        return ID;
+    }
 }
 enum WhacPokemonState{
-    Hide,Show,Caught
+    Hide(35),Show(15),Caught(25);
+
+    int value;
+
+    WhacPokemonState(int v) {
+        this.value = v;
+    }
 }

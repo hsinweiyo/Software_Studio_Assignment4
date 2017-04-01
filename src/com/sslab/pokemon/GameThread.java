@@ -26,12 +26,12 @@ public class GameThread implements Runnable {
                 //TODO Update the pokemonLabels
                 //TODO use Thread.sleep to make the loop go slower
                 speedDown();
-                System.out.println("thread speed down");
+                //System.out.println("thread speed down");
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
                         for(PokemonLabel pokemon : pokemons) {
-                            System.out.println(pokemons.indexOf(pokemon) + "pokemonLabel updating");
+                            //System.out.println(pokemons.indexOf(pokemon) + "pokemonLabel updating");
                             pokemon.Update();
                         }
                     }

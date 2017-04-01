@@ -26,7 +26,7 @@ public class PokemonCatcher {
     private JLabel scoreLabel;
 
     ArrayList<PokemonLabel> pokemons;
-    int score=0;
+    Integer score=0;
     public PokemonCatcher() {
 
         MouseAdapter listener = new MouseAdapter() {
@@ -36,14 +36,17 @@ public class PokemonCatcher {
 
                 //force cast and get pokemon from the event component
                 PokemonLabel pokemon = (PokemonLabel) e.getComponent();
-
+                System.out.println("mouse clicked");
                 //TODO see if pokemon is catchable, update the UI with SwingUtilities.invokeLater
                 if (pokemon.isCatchable()) {
+                    if(pokemon.getID() <= 2)
+                        score++;
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
                             pokemon.caught();
                             System.out.println("pokemon caught!");
+                            scoreLabel.setText(score.toString());
                         }
                     });
                 }
