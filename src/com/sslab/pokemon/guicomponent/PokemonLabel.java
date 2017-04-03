@@ -16,7 +16,7 @@ public class PokemonLabel extends JLabel{
     Random random = new Random();
     public PokemonLabel() {
         setIcon(PokemonSprite.bushIcon());
-        timeup = WhacPokemonState.Hide.value + random.nextInt(30);
+        timeup = WhacPokemonState.Hide.value + random.nextInt(35);
     }
 
     public void Update()
@@ -47,11 +47,33 @@ public class PokemonLabel extends JLabel{
 
     public void popPokemon(){
         //TODO when a pokemon pop up
-        Random random = new Random();
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ID = random.nextInt(5);
+                int target = (random.nextInt(11)) % 6;
+                switch (target) {
+                    case 3:
+                        ID = 62;
+                        break;
+                    case 4:
+                        ID = 64;
+                        break;
+                    case 5:
+                        ID = 865;
+                        break;
+                    default:
+                        ID = target;
+                }
+                ImageIcon icon = new ImageIcon(PokemonSprite.getSprite(ID));
+                setIcon(icon);
+                state = WhacPokemonState.Show;
+            }
+        });
+    }
+    public void popPokemon(int ID) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
                 ImageIcon icon = new ImageIcon(PokemonSprite.getSprite(ID));
                 setIcon(icon);
                 state = WhacPokemonState.Show;
@@ -67,8 +89,16 @@ public class PokemonLabel extends JLabel{
     public void caught()
     {
         //TODO when player caught the pokemon
-        setIcon(PokemonSprite.pokeballIcon());
-        state = WhacPokemonState.Caught;
+        if(ID == 865)
+            popPokemon(++ID);
+        else if(ID == 866)
+            popPokemon(++ID);
+        else if(ID == 867)
+            popPokemon(++ID);
+        else {
+            setIcon(PokemonSprite.pokeballIcon());
+            state = WhacPokemonState.Caught;
+        }
     }
 
     public boolean isCatchable()
@@ -83,7 +113,7 @@ public class PokemonLabel extends JLabel{
     }
 }
 enum WhacPokemonState{
-    Hide(35),Show(15),Caught(25);
+    Hide(45),Show(15),Caught(25);
 
     int value;
 
