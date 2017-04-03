@@ -43,7 +43,8 @@ public class PokemonCatcher {
                         score++;
                     else if(pokemon.getID() == 868)
                         score += 10;
-                    
+                    else
+                        score--;
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
