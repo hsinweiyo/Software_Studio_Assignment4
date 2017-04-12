@@ -41,8 +41,14 @@ public class PokemonCatcher {
                 if (pokemon.isCatchable()) {
                     if(pokemon.getID() <= 2)
                         score++;
-                    else if(pokemon.getID() == 868)
+                    /* bonus catch here */
+                    else if(pokemon.getID() == 868) {
+                        for (PokemonLabel poke : pokemons) {
+                            if (poke.getID() <= 2 && poke.isCatchable() )
+                                poke.caught();
+                        }
                         score += 10;
+                    }
                     else
                         score--;
                     SwingUtilities.invokeLater(new Runnable() {

@@ -21,36 +21,42 @@ public class PokemonLabel extends JLabel{
 
     public void Update()
     {
-        //TODO setup a counter, if time up you may want to change to another state
         switch (state) {
+            /* count down for the state */
             case Hide:
                 if(counter == timeup) {
+                    /* pop out the pokemon */
                     popPokemon();
+                    /* reset the counter */
                     counter = 0;
                 }
                 break;
             case Show:
                 if(counter == WhacPokemonState.Show.value) {
+                    /* hide the pokemon and reset the counter */
                     hidePokemon();
                     counter = 0;
                 }
                 break;
             case Caught:
                 if(counter == WhacPokemonState.Caught.value) {
+                    /* hide the pokemon and reset the counter */
                     hidePokemon();
                     counter = 0;
                 }
                 break;
         }
+        /* do the count */
         counter++;
     }
 
     public void popPokemon(){
-        //TODO when a pokemon pop up
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                /* arrange the probability of the pokemon shown up*/
                 int target = (random.nextInt(11)) % 6;
+                /* do the select of the pokemon */
                 switch (target) {
                     case 3:
                         ID = 62;
@@ -64,13 +70,16 @@ public class PokemonLabel extends JLabel{
                     default:
                         ID = target;
                 }
+                /* set the icon */
                 ImageIcon icon = new ImageIcon(PokemonSprite.getSprite(ID));
                 setIcon(icon);
+                /* change state to Show pokemon */
                 state = WhacPokemonState.Show;
             }
         });
     }
     public void popPokemon(int ID) {
+        /* show the pokemon by the id input */
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -82,13 +91,12 @@ public class PokemonLabel extends JLabel{
     }
     public void hidePokemon()
     {
-        //TODO when the pokemon hide into the bushes
         setIcon(PokemonSprite.bushIcon());
         state = WhacPokemonState.Hide;
     }
     public void caught()
     {
-        //TODO when player caught the pokemon
+        /* bonus pokemon, which will metamorphosis to its meta type */
         if(ID == 865)
             popPokemon(++ID);
         else if(ID == 866)
@@ -96,6 +104,7 @@ public class PokemonLabel extends JLabel{
         else if(ID == 867)
             popPokemon(++ID);
         else {
+            /* show the pokemon ball */
             setIcon(PokemonSprite.pokeballIcon());
             state = WhacPokemonState.Caught;
         }
@@ -113,8 +122,8 @@ public class PokemonLabel extends JLabel{
     }
 }
 enum WhacPokemonState{
+    /* different state */
     Hide(45),Show(15),Caught(25);
-
     int value;
 
     WhacPokemonState(int v) {

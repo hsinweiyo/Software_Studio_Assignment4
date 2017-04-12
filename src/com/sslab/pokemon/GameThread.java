@@ -13,25 +13,25 @@ public class GameThread implements Runnable {
     private Thread thread;
         public GameThread(ArrayList<PokemonLabel> pokemonLabels){
             //TODO create and start the thread
+            /* create a thread and start it */
             this.pokemons = pokemonLabels;
             thread = new Thread(this);
             thread.start();
-            System.out.println("thread start");
         }
 
         @Override
         public void run() {
             while(true)
             {
-                //TODO Update the pokemonLabels
-                //TODO use Thread.sleep to make the loop go slower
+                /* sleep 100 millis per cycle */
                 speedDown();
-                //System.out.println("thread speed down");
+
+                /* use invokeLater to Update the JLabel simultaneously */
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
+                        /* Update every Label with the for loop */
                         for(PokemonLabel pokemon : pokemons) {
-                            //System.out.println(pokemons.indexOf(pokemon) + "pokemonLabel updating");
                             pokemon.Update();
                         }
                     }
